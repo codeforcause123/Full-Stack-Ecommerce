@@ -80,3 +80,8 @@ export const loginController = async (req, res) => {
     res.status(500).send({ success: false, message: "Error in login", error });
   }
 };
+
+//test controller
+export const testController = (req, res) => {
+  res.send({message: "Protected Route"})
+};
