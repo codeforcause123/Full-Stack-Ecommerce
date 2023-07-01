@@ -5,6 +5,8 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Privacy from "./pages/Privacy";
 import PageNotFound from "./pages/PageNotFound";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 function App() {
   return (
     <>
