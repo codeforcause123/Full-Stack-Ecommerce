@@ -5,8 +5,8 @@ const Footer = () => {
     <div className="footer">
       <h1 className="text-center">All Right Reserved &copy;</h1>
       <p className="text-center mt-3">
-        <Link to="/about">About</Link>|<Link to="/contact">Contact</Link>|
-        <Link to="/policy">Privacy Policy</Link>
+        <Link to="/about" className="px-3">About</Link>|<Link to="/contact" className="px-3">Contact</Link>|
+        <Link to="/policy" className="px-3">Privacy Policy</Link>
       </p>
     </div>
   );
