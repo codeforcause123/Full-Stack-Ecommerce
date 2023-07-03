@@ -6,12 +6,16 @@ import Contact from "./pages/Contact";
 import Privacy from "./pages/Privacy";
 import PageNotFound from "./pages/PageNotFound";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Register from "./pages/Auth/Register";
+import Login from "./pages/Auth/Login";
 
 function App() {
   return (
     <>
       <Routes>
         <Route path="/" element={<Homepage />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login/>} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/policy" element={<Privacy />} />

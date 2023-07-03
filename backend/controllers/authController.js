@@ -6,7 +6,7 @@ export const registerController = async (req, res) => {
     const { name, email, password, phone, address } = req.body;
     //validate
     if (!name || !email || !password || !phone || !address) {
-      return res.send({ error: "Invalid" });
+      return res.send({ message: "Invalid" });
     }
     //checking existing user
     const existingUser = await userModel.findOne({ email });
