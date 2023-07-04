@@ -1,7 +1,16 @@
 import { Navbar, Nav, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
-
+import { useAuth } from "../../context/auth";
 function Header() {
+  const [auth, setAuth] = useAuth();
+  const handleLogout = () => {
+    setAuth({
+      ...auth,
+      user: null,
+      token: "",
+    });
+    localStorage.removeItem("auth");
+  };
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container>
@@ -17,12 +26,22 @@ function Header() {
             <Nav.Link as={Link} to="/category">
               Category
             </Nav.Link>
-            <Nav.Link as={Link} to="/register">
-              Register
-            </Nav.Link>
-            <Nav.Link as={Link} to="/login">
-              Login
-            </Nav.Link>
+            {!auth.user ? (
+              <>
+                <Nav.Link as={Link} to="/register">
+                  Register
+                </Nav.Link>
+                <Nav.Link as={Link} to="/login">
+                  Login
+                </Nav.Link>
+              </>
+            ) : (
+              <>
+                <Nav.Link as={Link} to="/login" onClick={handleLogout}>
+                  Logout
+                </Nav.Link>
+              </>
+            )}
             <Nav.Link as={Link} to="/cart">
               Cart (0)
             </Nav.Link>
