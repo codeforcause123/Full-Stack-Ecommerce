@@ -3,9 +3,9 @@ import userModel from "../models/userModel.js";
 import JWT from "jsonwebtoken";
 export const registerController = async (req, res) => {
   try {
-    const { name, email, password, phone, address } = req.body;
+    const { name, email, password, phone, address , answer} = req.body;
     //validate
-    if (!name || !email || !password || !phone || !address) {
+    if (!name || !email || !password || !phone || !address || !answer) {
       return res.send({ message: "Invalid" });
     }
     //checking existing user
@@ -23,6 +23,7 @@ export const registerController = async (req, res) => {
       phone,
       address,
       password: hashedpassword,
+      answer
     }).save();
     res
       .status(201)
@@ -81,7 +82,45 @@ export const loginController = async (req, res) => {
   }
 };
 
+export const forgotPasswordController = async (req, res) => {
+  try {
+    const { email, answer, newpassword } = req.body;
+    if (!email) {
+      res
+        .status(400)
+        .send({ success: false, message: "Please enter your email" });
+    }
+    if (!answer) {
+      res
+        .status(400)
+        .send({ success: false, message: "Please enter your answer" });
+    }
+    if (!newpassword) {
+      res
+        .status(400)
+        .send({ success: false, message: "Please enter your newpassword" });
+    }
+    // Check
+    const user = await userModel.findOne({ email, answer });
+    //validation
+    if (!user) {
+      return res
+        .status(404)
+        .send({ success: false, message: "Wrong email or answer" });
+    }
+    const hashed = await hashPassword(newpassword);
+    await userModel.findByIdAndUpdate(user._id, { password: hashed });
+    return res
+      .status(200)
+      .send({ success: true, message: "Password reset successfully" });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .send({ success: false, message: "Something went wrong", error });
+  }
+};
 //test controller
 export const testController = (req, res) => {
-  res.send({message: "Protected Route"})
+  res.send({ message: "Protected Route" });
 };

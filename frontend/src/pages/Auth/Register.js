@@ -5,24 +5,29 @@ import Form from "react-bootstrap/Form";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
-import "../Styles/registerstyle.css"
+import "../Styles/registerstyle.css";
 const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
+  const [answer, setAnswer] = useState("");
   const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`http://localhost:4000/api/v1/auth/register`, {
-        name,
-        email,
-        password,
-        phone,
-        address,
-      });
+      const res = await axios.post(
+        `http://localhost:4000/api/v1/auth/register`,
+        {
+          name,
+          email,
+          password,
+          phone,
+          address,
+          answer,
+        }
+      );
       if (res && res.data.success) {
         toast.success(res.data && res.data.message);
         navigate("/login");
@@ -87,6 +92,16 @@ const Register = () => {
               placeholder="Enter Address"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
+              required
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="formBasicAddress">
+            <Form.Label>Security Answer</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Your Birth Place"
+              value={answer}
+              onChange={(e) => setAnswer(e.target.value)}
               required
             />
           </Form.Group>

@@ -1,4 +1,4 @@
-import { Navbar, Nav, Container } from "react-bootstrap";
+import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/auth";
 function Header() {
@@ -37,9 +37,14 @@ function Header() {
               </>
             ) : (
               <>
-                <Nav.Link as={Link} to="/login" onClick={handleLogout}>
-                  Logout
-                </Nav.Link>
+                <NavDropdown title={auth?.user?.name} id="basic-nav-dropdown">
+                  <NavDropdown.Item as={Link} to="/dashboard">
+                    DashBoard
+                  </NavDropdown.Item>
+                  <NavDropdown.Item as={Link} to="/login" onClick={handleLogout}>
+                    Logout
+                  </NavDropdown.Item>
+                </NavDropdown>
               </>
             )}
             <Nav.Link as={Link} to="/cart">
