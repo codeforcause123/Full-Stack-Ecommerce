@@ -38,10 +38,19 @@ function Header() {
             ) : (
               <>
                 <NavDropdown title={auth?.user?.name} id="basic-nav-dropdown">
-                  <NavDropdown.Item as={Link} to="/dashboard">
+                  <NavDropdown.Item
+                    as={Link}
+                    to={`/dashboard/${
+                      auth?.user?.role === 1 ? "admin" : "user"
+                    }`}
+                  >
                     DashBoard
                   </NavDropdown.Item>
-                  <NavDropdown.Item as={Link} to="/login" onClick={handleLogout}>
+                  <NavDropdown.Item
+                    as={Link}
+                    to="/login"
+                    onClick={handleLogout}
+                  >
                     Logout
                   </NavDropdown.Item>
                 </NavDropdown>
