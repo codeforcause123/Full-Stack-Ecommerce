@@ -5,7 +5,8 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import morgan from "morgan";
 import connectDB from "./config/db.js";
-import authRoutes from "./routes/authRoute.js"
+import authRoutes from "./routes/authRoute.js";
+import categoryRoutes from "./routes/categoryRoutes.js";
 // configuration of environment variables
 dotenv.config();
 // database configuration
@@ -18,7 +19,8 @@ app.use(bodyParser.json());
 app.use(morgan("dev"));
 
 //routes
-app.use("/api/v1/auth",authRoutes);
+app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/category", categoryRoutes);
 
 app.get("/", (req, res) => {
   res.json({ message: "Hello, world!" });
