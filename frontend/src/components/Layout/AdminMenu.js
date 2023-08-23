@@ -13,6 +13,9 @@ const AdminMenu = () => {
           <ListGroup.Item as={NavLink} to="/dashboard/admin/create-product">
             Create Product
           </ListGroup.Item>
+          <ListGroup.Item as={NavLink} to="/dashboard/admin/products">
+            Products
+          </ListGroup.Item>
           <ListGroup.Item as={NavLink} to="/dashboard/admin/users">
             Users
           </ListGroup.Item>
