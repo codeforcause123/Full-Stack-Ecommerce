@@ -102,9 +102,9 @@ const CreateCategory = () => {
             <div className="w-75">
               <Table striped bordered hover>
                 <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Actions</th>
+                  <tr key={10}>
+                    <th key={1}>Name</th>
+                    <th key={2}>Actions</th>
                   </tr>
                 </thead>
                 <tbody>

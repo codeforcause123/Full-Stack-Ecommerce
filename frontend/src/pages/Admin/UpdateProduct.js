@@ -81,7 +81,7 @@ const UpdateProduct = () => {
     try {
       let answer = window.prompt("Are you sure you want to delete?");
       if (!answer) return;
-      const { data } = await axios.delete(
+      await axios.delete(
         `http://localhost:4000/api/v1/product/delete-product/${id}`
       );
       console.log("Product Deleted successfully");

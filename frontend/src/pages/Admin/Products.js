@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import AdminMenu from "../../components/Layout/AdminMenu";
 import { Layout } from "../../components/Layout/Layout";
 import axios from "axios";
-import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { NavLink } from "react-router-dom";
 const Products = () => {
@@ -29,14 +28,18 @@ const Products = () => {
         </div>
         <div className="col-md-9">
           <h1 className="text-center">All Products List</h1>
-          <div className="d-flex">
+          <div className="d-flex flex-wrap">
             {products?.map((product) => (
               <NavLink
                 to={`/dashboard/admin/product/${product.slug}`}
                 key={product._id}
                 className="product-link"
               >
-                <Card style={{ width: "18rem" }} className="m-2">
+                <Card
+                  style={{ width: "18rem" }}
+                  className="m-2"
+                  key={product._id}
+                >
                   <Card.Img
                     variant="top"
                     src={`http://localhost:4000/api/v1/product/product-photo/${product._id}`}
