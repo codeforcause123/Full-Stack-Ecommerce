@@ -11,6 +11,38 @@ export const Homepage = () => {
   const [categories, setCategories] = useState([]);
   const [checked, setChecked] = useState([]);
   const [radio, setRadio] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  // get total count
+  const getTotalCount = async () => {
+    try {
+      const { data } = await axios.get(
+        "http://localhost:4000/api/v1/product/product-count"
+      );
+      setTotal(data?.total);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  // load more function
+  const loadMore = async () => {
+    setLoading(true);
+    try {
+      const { data } = await axios.get(
+        `http://localhost:4000/api/v1/product/product-list/${page}`
+      );
+      setLoading(false);
+      setProducts([...products, ...data?.products]);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    if (page === 1) return;
+    loadMore(); // eslint-disable-next-line
+  }, [page]);
   //getting categories
   const getAllCategories = async () => {
     try {
@@ -26,12 +58,15 @@ export const Homepage = () => {
   };
   // getting all products
   const getAllProducts = async () => {
+    setLoading(true);
     try {
       const { data } = await axios.get(
-        "http://localhost:4000/api/v1/product/get-product"
+        `http://localhost:4000/api/v1/product/product-list/${page}`
       );
+      setLoading(false);
       setProducts(data.products);
     } catch (error) {
+      setLoading(false);
       console.log(error);
     }
   };
@@ -47,11 +82,12 @@ export const Homepage = () => {
   };
   useEffect(() => {
     getAllCategories();
+    getTotalCount();
   }, []);
   useEffect(() => {
     if (!checked.length || !radio.length) {
       getAllProducts();
-    }
+    } // eslint-disable-next-line
   }, [checked.length, radio.length]);
 
   // get filtered Product
@@ -69,7 +105,7 @@ export const Homepage = () => {
   useEffect(() => {
     if (checked.length || radio.length) {
       filterProducts();
-    }
+    } // eslint-disable-next-line
   }, [checked, radio]);
   return (
     <Layout title={"All Products - Best Offers"}>
@@ -96,6 +132,14 @@ export const Homepage = () => {
                 </div>
               ))}
             </Radio.Group>
+          </div>
+          <div className="d-flex flex-column ml-10">
+            <button
+              className="btn btn-info mt-4"
+              onClick={() => window.location.reload()}
+            >
+              Reset Filters
+            </button>
           </div>
         </div>
         <div className="col-md-9">
@@ -125,6 +169,19 @@ export const Homepage = () => {
                 </Card.Body>
               </Card>
             ))}
+          </div>
+          <div className="m-2 p-3">
+            {products && products.length < total && (
+              <button
+                className="btn btn-warning"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setPage(page + 1);
+                }}
+              >
+                {loading ? "loading" : "Load More..."}
+              </button>
+            )}
           </div>
         </div>
       </div>
