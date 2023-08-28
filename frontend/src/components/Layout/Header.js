@@ -1,6 +1,7 @@
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/auth";
+import SearchInput from "../Form/SearchInput";
 function Header() {
   const [auth, setAuth] = useAuth();
   const handleLogout = () => {
@@ -19,6 +20,7 @@ function Header() {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
+          <SearchInput />
           <Nav className="ms-auto">
             <Nav.Link as={Link} to="/">
               Home

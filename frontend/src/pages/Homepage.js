@@ -5,6 +5,7 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { Checkbox, Radio } from "antd";
 import { Prices } from "../components/Prices";
+import { useNavigate } from "react-router-dom";
 export const Homepage = () => {
   // eslint-disable-next-line
   const [products, setProducts] = useState([]);
@@ -14,6 +15,7 @@ export const Homepage = () => {
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   // get total count
   const getTotalCount = async () => {
     try {
@@ -160,7 +162,11 @@ export const Homepage = () => {
                   <Card.Title>{product.name}</Card.Title>
                   <Card.Text>{product.description.substring(0, 30)}</Card.Text>
                   <Card.Text>$ {product.price}</Card.Text>
-                  <Button variant="primary" className="ms-1">
+                  <Button
+                    variant="primary"
+                    className="ms-1"
+                    onClick={() => navigate(`/product/${product.slug}`)}
+                  >
                     More Details
                   </Button>
                   <Button variant="secondary" className="ms-1">

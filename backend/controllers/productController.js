@@ -222,3 +222,47 @@ export const productListController = async (req, res) => {
       .send({ success: false, message: "Error in product list", error });
   }
 };
+
+//search for products
+export const searchProductsController = async (req, res) => {
+  try {
+    const { keyword } = req.params;
+    const results = await productModel
+      .find({
+        $or: [
+          { name: { $regex: keyword, $options: "i" } },
+          { description: { $regex: keyword, $options: "i" } },
+        ],
+      })
+      .select("-photo");
+    res.json(results);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ success: false, message: "Error in search", error });
+  }
+};
+
+// similar products
+export const similarProductsController = async (req, res) => {
+  try {
+    const { pid, cid } = req.params;
+    const products = await productModel
+      .find({
+        category: cid,
+        _id: { $ne: pid },
+      })
+      .select("-photo")
+      .limit(3)
+      .populate("category");
+    res
+      .status(200)
+      .send({ success: true, message: "Similar products", products });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error in fetching similar products",
+      error,
+    });
+  }
+};
