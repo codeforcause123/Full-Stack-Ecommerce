@@ -2,8 +2,10 @@ import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/auth";
 import SearchInput from "../Form/SearchInput";
+import useCategory from "../../hooks/useCategory";
 function Header() {
   const [auth, setAuth] = useAuth();
+  const categories = useCategory();
   const handleLogout = () => {
     setAuth({
       ...auth,
@@ -25,9 +27,20 @@ function Header() {
             <Nav.Link as={Link} to="/">
               Home
             </Nav.Link>
-            <Nav.Link as={Link} to="/category">
-              Category
-            </Nav.Link>
+            <NavDropdown title="Categories" id="basic-nav-dropdown">
+              <NavDropdown.Item as={Link} to={"/categories"}>
+                All Categories
+              </NavDropdown.Item>
+              {categories.map((category) => (
+                <NavDropdown.Item
+                  as={Link}
+                  to={`/category/${category.slug}`}
+                  key={category._id}
+                >
+                  {category.name}
+                </NavDropdown.Item>
+              ))}
+            </NavDropdown>
             {!auth.user ? (
               <>
                 <Nav.Link as={Link} to="/register">
